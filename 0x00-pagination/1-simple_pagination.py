@@ -3,11 +3,10 @@
 1-simple_pagination.py
 """
 
-index_range = __import__('0-simple_helper_function').index_range
-
-import csv
-import math
 from typing import List
+import math
+import csv
+index_range = __import__('0-simple_helper_function').index_range
 
 
 class Server:
@@ -30,8 +29,10 @@ class Server:
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
-        assert int(page) > 0 
+        """gets page according to index
+        """
+        assert int(page) > 0
         assert int(page_size) > 0
         start_index, end_index = index_range(page, page_size)
-        
+
         return self.dataset()[start_index:end_index]
