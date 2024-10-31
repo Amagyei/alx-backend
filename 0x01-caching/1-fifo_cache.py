@@ -3,6 +3,7 @@
 """
 
 from base_caching import BaseCaching
+from collections import OrderedDict
 
 
 class FIFOCache(BaseCaching):
@@ -15,6 +16,7 @@ class FIFOCache(BaseCaching):
         """Initializes the cache.
         """
         super().__init__()
+        self.cache_data = OrderedDict()
 
     def put(self, key, item):
         """Adds an item in the cache.
