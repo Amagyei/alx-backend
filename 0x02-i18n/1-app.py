@@ -1,18 +1,14 @@
 #!/usr/bin/env python3
-''' Basic flask app that creates a single / route
-to an index.html page that returns hello world
+'''Task 0: Basic Flask app
 '''
-
 
 from flask import Flask, render_template
 from flask_babel import Babel
 
-app = Flask(__name__)
-
 
 class Config:
-    """Represents a Flask Babel configuration.
-    """
+    '''Config class'''
+
     LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
@@ -21,17 +17,15 @@ class Config:
 app = Flask(__name__)
 app.config.from_object(Config)
 app.url_map.strict_slashes = False
+
 babel = Babel(app)
 
 
 @app.route('/')
-def HELLO_WORLD():
-    ''' function that returns the renderend html template
-    '''
-    return render_template('0-index.html')
+def index():
+    '''default route'''
+    return render_template("1-index.html",)
 
 
-if __name__ == '__main__':
-    ''' function that returns the renderend html template
-    '''
-    app.run()
+if __name__ == "__main__":
+    app.run(debug=True)
