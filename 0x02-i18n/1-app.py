@@ -5,9 +5,10 @@ to an index.html page that returns hello world
 
 
 from flask import Flask, render_template
+from flask_babel import Babel
 
 app = Flask(__name__)
-from flask_babel import Babel
+
 
 class Config:
     """Represents a Flask Babel configuration.
