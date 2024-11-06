@@ -9,7 +9,7 @@ app = Flask(__name__)
 def hello_world():
     ''' function that returns the renderend html template 
     '''
-    return render_template('templates/index.html')
+    return render_template('0-index.html')
 
 if __name__ == '__main__':
     ''' function that returns the renderend html template 
