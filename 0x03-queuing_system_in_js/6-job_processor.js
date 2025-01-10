@@ -1,17 +1,24 @@
 #!/usr/bin/yarn dev
-import { createQueue } from 'kue';
 
-const queue = createQueue();
+var kue = require('kue')
+  , queue = kue.createQueue();
 
-const sendNotification = (phoneNumber, message) => {
-  console.log(
-    `Sending notification to ${phoneNumber},`,
-    'with message:',
-    message,
-  );
-};
+
+function sendNotification(phoneNumber, message) {
+    console.log(`Sending notification to ${phoneNumber}, with message: ${message}`);
+    }
 
 queue.process('push_notification_code', (job, done) => {
-  sendNotification(job.data.phoneNumber, job.data.message);
+  const { phoneNumber, message } = job.data;
+
+  if (!phoneNumber || !message) {
+    console.error('Invalid job data: Missing phoneNumber or message');
+    return done(new Error('Missing phoneNumber or message'));
+  }
+
+  // Call the `sendNotification` function
+  sendNotification(phoneNumber, message);
+
+  // Mark the job as done
   done();
 });

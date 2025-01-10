@@ -2,22 +2,31 @@
 import { createClient } from 'redis';
 
 const client = createClient();
-const EXIT_MSG = 'KILL_SERVER';
 
-client.on('error', (err) => {
-  console.log('Redis client not connected to the server:', err.toString());
-});
+client.on('error', function(err) {
+    console.error('Redis client not connected to the server: ', err)
+    })
 
 client.on('connect', () => {
-  console.log('Redis client connected to the server');
-});
+    console.log('Redis client connected to the server');
 
-client.subscribe('holberton school channel');
+    client.subscribe("ALXchannel", (err) => {
+        if (err) {
+            console.error('Failed to subscribe to ALXchannel:', err.toString());
+        } else {
+            console.log('Subscribed to ALXchannel');
+        }
+        })
+    })
 
-client.on('message', (_err, msg) => {
-  console.log(msg);
-  if (msg === EXIT_MSG) {
-    client.unsubscribe();
-    client.quit();
-  }
+// Listen for messages on the subscribed channel
+client.on('message', (channel, message) => {
+    console.log(`Received message on ${channel}: ${message}`);
+
+    // Handle KILL_SERVER message
+    if (message === 'KILL_SERVER') {
+        console.log('KILL_SERVER received. Unsubscribing and quitting...');
+        client.unsubscribe();
+        client.quit();
+    }
 });
